@@ -3,15 +3,15 @@ const searchWrapper = document.querySelector(".search-input");
 const inputBox = document.querySelector("input");
 const suggBox = document.querySelector(".autocom-box");
 let searchUrl = "https://api.giphy.com/v1/gifs/search?api_key=bYQ1Vfn6G2NKpWha0cAgVmdsArrnZiSz&limit=12&offset=0&rating=g&lang=en&q=";
-
+let catchResultSearch;
 // if user press any key and release
 inputBox.onkeyup = (e) => {
     let userData = e.target.value;//user entred data
     let emptyArray = [];
     let searchSuggestions = [];
-    let url = searchUrl+userData;
-    console.log(url);
-    async function getFrames() {
+    let url = searchUrl + userData;
+    console.log();
+    async function getWords() {
         let response = await fetch(url);
         let responseJson = await response.json();
         let data = responseJson.data;
@@ -38,16 +38,16 @@ inputBox.onkeyup = (e) => {
             let allList = suggBox.querySelectorAll("li");
             for (let i = 0; i < allList.length; i++) {
                 //ADDING ONCLICK ATTRIBUTE  IN ALL LI TAG 
+                // setAttribute toma nombres de funciones como strings y las ejecuta 
                 allList[i].setAttribute("onclick", "select(this)");
-    
+                //catchResultSearch = allList[i].setAttribute("onclick", "ejemp(this)");
             }
+            console.log(allList)
         } else {
             searchWrapper.classList.remove("active");//hide autocomplete div
         }
     }
-   
-    getFrames();
-    
+    getWords();
 
 
     /* console.log(e.target.value); */
@@ -58,7 +58,9 @@ function select(element) {
     inputBox.value = selectUserData;//passing the user selected list data in textfield
     searchWrapper.classList.remove("active");
     console.log(selectUserData);//el que escoje
+    return selectUserData;
 }
+
 
 function showSuggestions(list) {
     let listData;
@@ -70,4 +72,8 @@ function showSuggestions(list) {
     }
     suggBox.innerHTML = listData;
 }
-
+/* function ejemp(catchResultSearch) {
+    console.log(catchResultSearch);
+    return catchResultSearch;
+}
+console.log(catchResultSearch); */
